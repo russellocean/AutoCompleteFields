@@ -56,7 +56,26 @@ jQuery(function ($) {
     return function (request, response) {
       var terms = request.term.split(/,\s*/);
       var term = terms.length === 0 ? "" : terms[terms.length - 1];
-      $.getJSON(url, { term: term }, response);
+      var field_type = this.id.replace("field-", "");
+
+      // Get the corresponding data for the field_type from the settings object
+      var field_data = settings.multi_fields[field_type.toLowerCase()];
+
+      // Filter the data based on the user's input (term)
+      var filtered_data = $.grep(field_data, function (item) {
+        return item.toLowerCase().indexOf(term.toLowerCase()) === 0;
+      });
+
+      // Transform the filtered data to be used with the autocomplete widget
+      var transformedData = $.map(filtered_data, function (item) {
+        return {
+          label: item,
+          value: item,
+        };
+      });
+
+      // Return the transformed data as the response
+      response(transformedData);
     };
   };
   var single_select = function (event, ui) {
@@ -92,7 +111,7 @@ jQuery(function ($) {
   };
 
   $(document).ready(function () {
-    var multi_fields = ["keywords", "supplier", "customer", "sizes"];
+    var multi_fields = ["keywords", "customer", "supplier", "sizes"];
     activate({ selector: ticket_fields(multi_fields), multiple: true });
   });
 });
