@@ -96,6 +96,6 @@ jQuery(function ($) {
     $(target.selector).tracautocompletefields(options);
   };
 
-  var single_fields = ["Keywords", "Supplier", "Customer", "Sizes"];
+  var single_fields = ["keywords", "supplier", "customer", "sizes"];
   activate({ selector: ticket_fields(single_fields), multiple: false });
 });
