@@ -91,6 +91,8 @@ jQuery(function ($) {
     $(target.selector).tracautocompletefields(options);
   };
 
-  var single_fields = ["keywords", "supplier", "customer", "sizes"];
-  activate({ selector: ticket_fields(single_fields), multiple: false });
+  $(document).ready(function () {
+    var multi_fields = ["keywords", "supplier", "customer", "sizes"];
+    activate({ selector: ticket_fields(multi_fields), multiple: true });
+  });
 });
