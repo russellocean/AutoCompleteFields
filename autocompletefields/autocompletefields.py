@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from trac.admin.api import IAdminPanelProvider
 from trac.core import Component, implements
 from trac.util.presentation import to_json
 from trac.web.api import IRequestFilter, IRequestHandler
@@ -15,7 +16,7 @@ SCRIPT_FIELD_NAME = "autocomplete_fields"
 
 
 class AutoCompleteFields(Component):
-    implements(IRequestFilter, IRequestHandler, ITemplateProvider)
+    implements(IRequestFilter, IRequestHandler, ITemplateProvider, IAdminPanelProvider)
 
     # IRequestHandler methods
     def match_request(self, req):
