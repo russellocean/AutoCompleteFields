@@ -133,7 +133,7 @@ class AutoCompleteFields(Component):
                 cursor = db.cursor()
                 cursor.execute(
                     "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name),
-                    (value,),
+                    [value],
                 )
 
     def _remove_item(self, field_type, value):
@@ -145,7 +145,7 @@ class AutoCompleteFields(Component):
                 cursor = db.cursor()
                 cursor.execute(
                     "DELETE FROM {} WHERE {} = ?".format(table_name, column_name),
-                    (value,),
+                    [value],
                 )
 
     def _get_table_name(self, field_type):
