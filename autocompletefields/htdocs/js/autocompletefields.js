@@ -23,7 +23,7 @@
     methods._renderItemData = function (ul, item) {
       item = itemData(item);
       var li = renderItem(ul, item);
-      li.data("autocompletefields", item);
+      li.data("ui-autocomplete-item", item);
       return li;
     };
   } else {

@@ -72,7 +72,7 @@ class AutoCompleteFields(Component):
                     "suppliers": self._get_items_for_field("Supplier"),
                     "sizes": self._get_items_for_field("Sizes"),
                 },
-                "url": req.href.subjects(),
+                "url": req.href.autocompletefields(),  # Modify this line
             }
             add_script_data(req, {"autocompletefields": script_data})
         return template, data, content_type
