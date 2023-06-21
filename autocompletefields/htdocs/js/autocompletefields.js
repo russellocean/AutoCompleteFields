@@ -79,15 +79,7 @@ jQuery(function ($) {
       options.source = multi_source(url);
       options.select = multi_select;
     } else {
-      options.source = function (request, response) {
-        // Get the field_type from the input id
-        var field_type = this.id.replace("field-", "");
-        $.getJSON(
-          url,
-          { field_type: field_type, term: request.term },
-          response
-        );
-      };
+      options.source = url;
       options.select = single_select;
     }
     options.focus = function () {
