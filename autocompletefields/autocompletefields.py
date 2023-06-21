@@ -2,6 +2,7 @@
 from trac.admin.api import IAdminPanelProvider
 from trac.core import Component, implements
 from trac.util.presentation import to_json
+from trac.util.translation import _
 from trac.web.api import IRequestFilter, IRequestHandler
 from trac.web.chrome import (
     ITemplateProvider,
