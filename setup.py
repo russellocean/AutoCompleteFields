@@ -9,14 +9,19 @@ setup(
     description="Autocomplete custom fields like Keywords, Supplier, Customer, and Sizes",
     author="Russell Welch",
     author_email="russellwelch17@gmail.com",
-    url="Your project URL",
+    url="https://github.com/russellocean/AutoCompleteFields",
     keywords="trac plugin",
     license="MIT",
     packages=find_packages(exclude=["ez_setup", "examples", "tests*"]),
     include_package_data=True,
     install_requires=["Trac"],
     package_data={
-        "autocompletefields": ["htdocs/css/*.css", "htdocs/css/*.gif", "htdocs/js/*.js"]
+        "autocompletefields": [
+            "htdocs/css/*.css",
+            "htdocs/css/*.gif",
+            "htdocs/js/*.js",
+            "templates/*.html",
+        ]
     },
     zip_safe=False,
     classifiers=[

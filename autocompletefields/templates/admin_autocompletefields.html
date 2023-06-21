@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AutoComplete Fields</title>
+  </head>
+  <body>
+    <h2>AutoComplete Fields</h2>
+    <p>Manage the values for Keywords, Suppliers, Customers, and Sizes.</p>
+
+    <form method="post">
+      <label for="field_type">Field Type:</label>
+      <select name="field_type" id="field_type">
+        <option value="Keywords">Keywords</option>
+        <option value="Supplier">Supplier</option>
+        <option value="Customer">Customer</option>
+        <option value="Sizes">Sizes</option>
+      </select>
+      <br />
+
+      <label for="value">Value:</label>
+      <input type="text" name="value" id="value" />
+      <br />
+
+      <input type="submit" name="action" value="add" />
+      <input type="submit" name="action" value="remove" />
+    </form>
+
+    <h3>Current Values</h3>
+    <ul>
+      <li><strong>Keywords:</strong> ${', '.join(keywords)}</li>
+      <li><strong>Suppliers:</strong> ${', '.join(suppliers)}</li>
+      <li><strong>Customers:</strong> ${', '.join(customers)}</li>
+      <li><strong>Sizes:</strong> ${', '.join(sizes)}</li>
+    </ul>
+  </body>
+</html>
