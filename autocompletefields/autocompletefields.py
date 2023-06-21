@@ -6,6 +6,7 @@ from trac.util.presentation import to_json
 from trac.util.translation import _
 from trac.web.api import IRequestFilter, IRequestHandler
 from trac.web.chrome import (
+    Chrome,
     ITemplateProvider,
     add_notice,
     add_script,
@@ -59,22 +60,21 @@ class AutoCompleteFields(Component):
         return handler
 
     def post_process_request(self, req, template, data, content_type):
-        add_stylesheet(req, "autocompletefields/css/autocompletefields.css")
-        add_script(req, "autocompletefields/js/autocompletefields.js")
-
-        # add the script data
-        script_data = {
-            "template": template,
-            "multi_fields": {
-                "keywords": self._get_items_for_field("Keywords"),
-                "customers": self._get_items_for_field("Customer"),
-                "suppliers": self._get_items_for_field("Supplier"),
-                "sizes": self._get_items_for_field("Sizes"),
-            },
-            "url": req.href.subjects(),
-        }
-        add_script_data(req, {"autocompletefields": script_data})
-
+        if template in ("ticket.html", "admin_perms.html", "query.html"):
+            Chrome(self.env).add_jquery_ui(req)
+            add_stylesheet(req, "autocompletefields/css/autocompletefields.css")
+            add_script(req, "autocompletefields/js/autocompletefields.js")
+            script_data = {
+                "template": template,
+                "multi_fields": {
+                    "keywords": self._get_items_for_field("Keywords"),
+                    "customers": self._get_items_for_field("Customer"),
+                    "suppliers": self._get_items_for_field("Supplier"),
+                    "sizes": self._get_items_for_field("Sizes"),
+                },
+                "url": req.href.subjects(),
+            }
+            add_script_data(req, {"autocompletefields": script_data})
         return template, data, content_type
 
     # Private methods
