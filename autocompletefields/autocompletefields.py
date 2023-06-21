@@ -128,19 +128,17 @@ class AutoCompleteFields(Component):
         table_name = self._get_table_name(field_type)
         column_name = self._get_column_name(field_type)
 
-        if (
-            table_name and column_name and value is not None
-        ):  # Check that value is not None
+        if table_name and column_name and value is not None:
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                query = "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name)
-                cursor.execute(query, (value,))
-            self.log.info(
-                "Added item: Field Type - {}, Value - {}".format(field_type, value)
-            )
+                query = "INSERT INTO {} ({}) VALUES ({})".format(
+                    table_name, column_name, str(value)
+                )
+                cursor.execute(query)
+                self.log.info(
+                    "Added item: Field Type - {}, Value - {}".format(field_type, value)
+                )
         else:
-            # Handle the case where value is None
-            # depending on your application's requirements
             self.log.error(
                 "Failed to add item: Value is None. Field Type - {}, Value - {}".format(
                     field_type, value
@@ -154,11 +152,15 @@ class AutoCompleteFields(Component):
         if table_name and column_name:
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                query = "DELETE FROM {} WHERE {} = ?".format(table_name, column_name)
-                cursor.execute(query, (value,))
-            self.log.info(
-                "Removed item: Field Type - {}, Value - {}".format(field_type, value)
-            )
+                query = "DELETE FROM {} WHERE {} = {}".format(
+                    table_name, column_name, str(value)
+                )
+                cursor.execute(query)
+                self.log.info(
+                    "Removed item: Field Type - {}, Value - {}".format(
+                        field_type, value
+                    )
+                )
         else:
             self.log.error(
                 "Failed to remove item: Table or column not found. Field Type - {}, Value - {}".format(
