@@ -76,7 +76,7 @@ class AutoCompleteFields(Component):
         if table_name and column_name:
             with self.env.db_query as db:
                 cursor = db.cursor()
-                cursor.execute(f"SELECT {column_name} FROM {table_name}")
+                cursor.execute("SELECT {} FROM {}".format(column_name, table_name))
                 items = [row[0] for row in cursor]
 
         return items
@@ -123,7 +123,8 @@ class AutoCompleteFields(Component):
             with self.env.db_transaction as db:
                 cursor = db.cursor()
                 cursor.execute(
-                    f"INSERT INTO {table_name} ({column_name}) VALUES (?)", (value,)
+                    "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name),
+                    (value,),
                 )
 
     def _remove_item(self, field_type, value):
@@ -134,7 +135,8 @@ class AutoCompleteFields(Component):
             with self.env.db_transaction as db:
                 cursor = db.cursor()
                 cursor.execute(
-                    f"DELETE FROM {table_name} WHERE {column_name} = ?", (value,)
+                    "DELETE FROM {} WHERE {} = ?".format(table_name, column_name),
+                    (value,),
                 )
 
     def _get_table_name(self, field_type):
