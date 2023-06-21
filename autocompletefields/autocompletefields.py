@@ -177,7 +177,7 @@ class AutoCompleteFields(Component):
 
         tables = ["keywords", "suppliers", "customers", "sizes"]
         for table in tables:
-            cursor.execute(f"PRAGMA table_info({table})")
+            cursor.execute("PRAGMA table_info({})".format(table))
             result = cursor.fetchall()
             if not result:
                 # If no result, it likely means that the table does not exist
