@@ -173,23 +173,44 @@ class AutoCompleteFields(Component):
         self.upgrade_environment(self.env.get_db_cnx())
 
     def environment_needs_upgrade(self, db):
-        # This will be called before Trac checks whether the environment needs to be upgraded
-        return True
+        cursor = db.cursor()
+
+        tables = ["keywords", "suppliers", "customers", "sizes"]
+        for table in tables:
+            cursor.execute(f"PRAGMA table_info({table})")
+            result = cursor.fetchall()
+            if not result:
+                # If no result, it likely means that the table does not exist
+                return True
+
+        # If all tables exist
+        return False
 
     def upgrade_environment(self, db):
-        # This will be called when Trac is starting up and an environment needs to be upgraded.
         cursor = db.cursor()
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS keywords (
                 keyword TEXT
             );
+        """
+        )
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS suppliers (
                 supplier_name TEXT
             );
+        """
+        )
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS customers (
                 customer_name TEXT
             );
+        """
+        )
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS sizes (
                 size_name TEXT
             );
