@@ -8,7 +8,7 @@
     item = { field_type: item[0] };
     var label = item.field_type;
     item.label = label;
-    item.value = item.field_type;
+    item.value = label; // TODO: use a better value
     return item;
   };
   var renderItem = function (ul, item) {
@@ -43,6 +43,7 @@
 
 jQuery(function ($) {
   var settings = window.autocompletefields;
+  console.log(settings);
   if (settings === undefined) return;
 
   var ticket_fields = function (fields) {
@@ -71,6 +72,8 @@ jQuery(function ($) {
     return false;
   };
   var activate = function (target) {
+    console.log(target);
+
     if (!target.selector) return;
     var options = { minLength: 0, autoFocus: true };
     var args = [];

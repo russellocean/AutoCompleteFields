@@ -40,6 +40,7 @@ class AutoCompleteFields(Component):
             items = self._get_items_for_field(field_type)
 
         content = to_json(items)
+        self.log.debug("Content: {}".format(content))
         if isinstance(content, unicode):
             content = content.encode("utf-8")
         req.send(content, "application/json")
@@ -83,6 +84,8 @@ class AutoCompleteFields(Component):
         items = []
         table_name = None
         column_name = None
+
+        self.log.debug("Items for field {}: {}".format(field_type, items))
 
         if field_type == "Keywords":
             table_name = "keywords"
