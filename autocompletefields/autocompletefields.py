@@ -132,8 +132,8 @@ class AutoCompleteFields(Component):
             with self.env.db_transaction as db:
                 cursor = db.cursor()
                 cursor.execute(
-                    "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name),
-                    [value],
+                    "INSERT INTO {} ({}) VALUES (%%)".format(table_name, column_name)
+                    % value
                 )
 
     def _remove_item(self, field_type, value):
@@ -144,8 +144,8 @@ class AutoCompleteFields(Component):
             with self.env.db_transaction as db:
                 cursor = db.cursor()
                 cursor.execute(
-                    "DELETE FROM {} WHERE {} = ?".format(table_name, column_name),
-                    [value],
+                    "DELETE FROM {} WHERE {} = (%%)".format(table_name, column_name)
+                    % value
                 )
 
     def _get_table_name(self, field_type):
