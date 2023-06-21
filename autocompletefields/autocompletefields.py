@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from trac.admin.api import IAdminPanelProvider
 from trac.core import Component, implements
+from trac.env import IEnvironmentSetupParticipant
 from trac.util.presentation import to_json
 from trac.util.translation import _
 from trac.web.api import IRequestFilter, IRequestHandler
@@ -17,7 +18,13 @@ SCRIPT_FIELD_NAME = "autocomplete_fields"
 
 
 class AutoCompleteFields(Component):
-    implements(IRequestFilter, IRequestHandler, ITemplateProvider, IAdminPanelProvider)
+    implements(
+        IRequestFilter,
+        IRequestHandler,
+        ITemplateProvider,
+        IAdminPanelProvider,
+        IEnvironmentSetupParticipant,
+    )
 
     # IRequestHandler methods
     def match_request(self, req):
@@ -158,3 +165,33 @@ class AutoCompleteFields(Component):
             "Sizes": "size_name",
         }
         return column_mapping.get(field_type)
+
+        # IEnvironmentSetupParticipant methods
+
+    def environment_created(self):
+        # This will be called when a new Trac environment is created
+        self.upgrade_environment(self.env.get_db_cnx())
+
+    def environment_needs_upgrade(self, db):
+        # This will be called before Trac checks whether the environment needs to be upgraded
+        return True
+
+    def upgrade_environment(self, db):
+        # This will be called when Trac is starting up and an environment needs to be upgraded.
+        cursor = db.cursor()
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS keywords (
+                keyword TEXT
+            );
+            CREATE TABLE IF NOT EXISTS suppliers (
+                supplier_name TEXT
+            );
+            CREATE TABLE IF NOT EXISTS customers (
+                customer_name TEXT
+            );
+            CREATE TABLE IF NOT EXISTS sizes (
+                size_name TEXT
+            );
+        """
+        )
