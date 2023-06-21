@@ -131,7 +131,7 @@ class AutoCompleteFields(Component):
         if table_name and column_name and value is not None:
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                query = "INSERT INTO {} ({}) VALUES ({})".format(
+                query = "INSERT INTO {} ({}) VALUES ('{}')".format(
                     table_name, column_name, str(value)
                 )
                 cursor.execute(query)
@@ -152,7 +152,7 @@ class AutoCompleteFields(Component):
         if table_name and column_name:
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                query = "DELETE FROM {} WHERE {} = {}".format(
+                query = "DELETE FROM {} WHERE {} = '{}'".format(
                     table_name, column_name, str(value)
                 )
                 cursor.execute(query)
