@@ -133,10 +133,8 @@ class AutoCompleteFields(Component):
         ):  # Check that value is not None
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                cursor.execute(
-                    "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name),
-                    (value,),
-                )
+                query = "INSERT INTO {} ({}) VALUES (?)".format(table_name, column_name)
+                cursor.execute(query, (value,))
             self.log.info(
                 "Added item: Field Type - {}, Value - {}".format(field_type, value)
             )
@@ -156,10 +154,8 @@ class AutoCompleteFields(Component):
         if table_name and column_name:
             with self.env.db_transaction as db:
                 cursor = db.cursor()
-                cursor.execute(
-                    "DELETE FROM {} WHERE {} = ?".format(table_name, column_name),
-                    (value,),
-                )
+                query = "DELETE FROM {} WHERE {} = ?".format(table_name, column_name)
+                cursor.execute(query, (value,))
             self.log.info(
                 "Removed item: Field Type - {}, Value - {}".format(field_type, value)
             )
